@@ -1,0 +1,21 @@
+:root {
+  --bg: #07090f;
+  --bg-2: #0b0f19;
+  --surface: rgba(14, 18, 25, 0.62);
+  --surface-solid: #0e1219;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --text: #e6e9ef;
+  --muted: #8b93a3;
+  --accent: #22d3ee;
+  --accent-2: #a78bfa;
+  --accent-soft: rgba(34, 211, 238, 0.12);
+  --hot: #a5f3fc;
+  --font-display: 'Space Grotesk Variable', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Inter Variable', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'Cascadia Code', Consolas, monospace;
+  --radius: 18px;
+  --gutter: clamp(16px, 5vw, 72px);
+  --maxw: 1180px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}

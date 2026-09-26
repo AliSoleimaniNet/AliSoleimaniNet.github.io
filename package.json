@@ -1,0 +1,28 @@
+{
+  "name": "alisoleimaninet.github.io",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Ali Soleimani — personal site",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "assets": "node scripts/gen-assets.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@fontsource-variable/space-grotesk": "^5.3.0",
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.26",
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "@types/three": "^0.186.0",
+    "sharp": "^0.35.4",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.1",
+    "vite-plugin-glsl": "^1.6.1"
+  }
+}
