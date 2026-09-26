@@ -11,7 +11,7 @@ export function createComposer(renderer: THREE.WebGLRenderer, scene: THREE.Scene
   const size = renderer.getSize(new THREE.Vector2());
   const composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
-  const bloom = new UnrealBloomPass(size, 0.85, 0.65, 0.18);
+  const bloom = new UnrealBloomPass(size, 0.42, 0.55, 0.62);
   composer.addPass(bloom);
   const grain = new ShaderPass({
     uniforms: { tDiffuse: { value: null }, uTime: { value: 0 }, uAmount: { value: 0.06 } },

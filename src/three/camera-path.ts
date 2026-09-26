@@ -2,13 +2,13 @@ import * as THREE from 'three';
 
 // One keyframe per page section, in scroll order.
 const KEYS: { pos: [number, number, number]; look: [number, number, number] }[] = [
-  { pos: [0, 1.5, 19], look: [0, 0, 0] },       // hero
-  { pos: [7, 1.5, 11], look: [2, 0, 0] },       // about
-  { pos: [-9, 3.5, 9], look: [-3, 0, 0] },      // experience
-  { pos: [0.5, 7.5, 9], look: [0, 0, 0] },      // projects
-  { pos: [6, -2.5, 8], look: [1, 1, 0] },       // stack
-  { pos: [-3, 2, 14], look: [0, 0.5, 0] },      // github
-  { pos: [0, 0, 24], look: [0, 0, 0] },         // contact
+  { pos: [-2, 2, 27], look: [2, 0, 0] },        // hero: wide, mesh sits right of the headline
+  { pos: [9, 2, 16], look: [3, 0, 0] },         // about
+  { pos: [-10, 5, 14], look: [0, 0, 0] },       // experience
+  { pos: [2, 11, 13], look: [3, 0, 0] },        // projects
+  { pos: [10, -3, 12], look: [3, 1, 0] },       // stack
+  { pos: [-4, 3, 20], look: [2, 0.5, 0] },      // github
+  { pos: [1, 0, 32], look: [3, 0, 0] },         // contact
 ];
 
 export function createCameraPath() {

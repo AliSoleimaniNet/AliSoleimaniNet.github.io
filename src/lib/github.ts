@@ -52,7 +52,7 @@ export async function fetchGithub(
     const uj = await u.json();
     const rj = (await r.json()) as Repo[];
     const repos = rj
-      .filter((x) => !x.fork && x.name.toLowerCase() !== user.toLowerCase() && !x.name.endsWith('.github.io'))
+      .filter((x) => !x.fork && !!x.description && x.name.toLowerCase() !== user.toLowerCase() && !x.name.endsWith('.github.io'))
       .slice(0, 6);
     const data: GhData = {
       user: { followers: uj.followers, public_repos: uj.public_repos },

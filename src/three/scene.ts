@@ -29,11 +29,12 @@ export function createScene(canvas: HTMLCanvasElement, opts: SceneOptions) {
   const graph = generateGraph({ count: opts.lowEnd ? 26 : 42, radius: 7, seed: 7 });
   const nodes = createNodes(graph, ACCENT, HOT);
   const edges = createEdges(graph, ACCENT);
-  const packets = createPackets(graph, opts.lowEnd ? 140 : 520, ACCENT, (i) => nodes.pulse(i));
+  const packets = createPackets(graph, opts.lowEnd ? 120 : 360, ACCENT, (i) => nodes.pulse(i));
   const dust = createDust(opts.lowEnd ? 250 : 700, 22, ACCENT);
 
   const mesh = new THREE.Group();
   mesh.add(edges.lines, nodes.mesh, packets.mesh);
+  mesh.position.x = 3.5;
   scene.add(mesh, dust.points);
 
   const path = createCameraPath();
@@ -53,16 +54,17 @@ export function createScene(canvas: HTMLCanvasElement, opts: SceneOptions) {
     import('./post').then((m) => { composer = m.createComposer(renderer, scene, camera); });
   }
 
-  const clock = new THREE.Clock();
+  const timer = new THREE.Timer();
   let visible = !document.hidden;
   document.addEventListener('visibilitychange', () => { visible = !document.hidden; });
 
   function frame() {
     if (!visible) return;
-    const dt = Math.min(clock.getDelta(), 0.05);
+    timer.update();
+    const dt = Math.min(timer.getDelta(), 0.05);
     mouse.lerp(mouseTarget, 1 - Math.exp(-dt * 3));
-    mesh.rotation.y += dt * 0.025;
-    mesh.position.y = Math.sin(clock.elapsedTime * 0.25) * 0.25;
+    mesh.rotation.y += dt * 0.02;
+    mesh.position.y = Math.sin(timer.getElapsed() * 0.25) * 0.25;
     nodes.update(dt);
     packets.update(opts.reduced ? dt * 0.35 : dt);
     path.apply(camera, progress, mouse, dt);

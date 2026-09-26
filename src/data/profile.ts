@@ -214,7 +214,7 @@ export const profile = {
     public_repos: 23,
     repos: [
       { name: 'Uber-Data-Intelligence-Platform', description: '.NET Aspire data platform: medallion lakehouse, Qdrant semantic search, local LLM.', language: 'JavaScript', stargazers_count: 0, html_url: 'https://github.com/AliSoleimaniNet/Uber-Data-Intelligence-Platform', pushed_at: '2026-02-18T00:00:00Z' },
-      { name: 'QuizDSL-Studio', description: 'AI-powered MDSD framework with Xtext and .NET 10.', language: 'Java', stargazers_count: 0, html_url: 'https://github.com/AliSoleimaniNet/QuizDSL-Studio', pushed_at: '2026-02-18T00:00:00Z' },
+      { name: 'QuizDSL-Studio', description: 'LLM-powered MDSD framework with Xtext and .NET 10.', language: 'Java', stargazers_count: 0, html_url: 'https://github.com/AliSoleimaniNet/QuizDSL-Studio', pushed_at: '2026-02-18T00:00:00Z' },
       { name: 'ProxyChainer', description: 'Xray-core config builder chaining VLESS traffic through SOCKS proxies.', language: 'Python', stargazers_count: 2, html_url: 'https://github.com/AliSoleimaniNet/ProxyChainer', pushed_at: '2026-03-12T00:00:00Z' },
       { name: 'ExpressFinder', description: 'Automates the ExpressVPN CLI to find working locations.', language: 'Python', stargazers_count: 2, html_url: 'https://github.com/AliSoleimaniNet/ExpressFinder', pushed_at: '2026-05-27T00:00:00Z' },
       { name: 'ShamsiDate', description: 'Persian (Shamsi) calendar events and holidays.', language: 'C#', stargazers_count: 0, html_url: 'https://github.com/AliSoleimaniNet/ShamsiDate', pushed_at: '2022-02-18T00:00:00Z' },
