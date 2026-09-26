@@ -6,6 +6,8 @@ const KEYS: { pos: [number, number, number]; look: [number, number, number] }[] 
   { pos: [9, 2, 16], look: [3, 0, 0] },         // about
   { pos: [-10, 5, 14], look: [0, 0, 0] },       // experience
   { pos: [2, 11, 13], look: [3, 0, 0] },        // projects
+  { pos: [-6, -4, 15], look: [2, 0, 0] },       // architecture
+  { pos: [8, 6, 10], look: [3, -1, 0] },        // principles
   { pos: [10, -3, 12], look: [3, 1, 0] },       // stack
   { pos: [-4, 3, 20], look: [2, 0.5, 0] },      // github
   { pos: [1, 0, 32], look: [3, 0, 0] },         // contact

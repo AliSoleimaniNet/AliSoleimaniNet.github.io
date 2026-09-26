@@ -1,9 +1,10 @@
 // All site content lives here. Edit this file; the rendering and 3D code never needs to change.
+// Rule: products are described by their public purpose, my role and general stack only. No internals.
 
 export interface Project {
   id: string;
   kicker: string;
-  status: 'production' | 'in progress' | 'open source' | 'confidential';
+  status: 'production' | 'in progress' | 'open source';
   name: string;
   sub: string;
   description: string;
@@ -23,6 +24,7 @@ export const profile = {
     title: 'Backend .NET Tech Lead & Go Engineer',
     url: 'https://alisoleimaninet.github.io/',
     location: 'Isfahan, Iran',
+    timeZone: 'Asia/Tehran',
     email: 'AliSoleimaniWorks@gmail.com',
     github: 'https://github.com/AliSoleimaniNet',
     linkedin: 'https://www.linkedin.com/in/ali-soleimani-net/',
@@ -36,10 +38,16 @@ export const profile = {
     chips: ['.NET 9 / 10', 'Go', 'PostgreSQL', 'Kafka & RabbitMQ', 'gRPC', 'Docker'],
   },
 
+  // Labels attached to nodes of the 3D mesh: the generic building blocks I work with.
+  meshLabels: [
+    'api gateway', 'identity', 'booking', 'billing', 'notifications', 'reporting',
+    'postgresql', 'redis', 'message broker', 'job scheduler', 'grpc', 'opentelemetry', 'kiosk agent', 'ci/cd',
+  ],
+
   about: {
     bio: [
-      'I am a backend engineer who likes the hard parts: <strong>distributed systems, identity, payments and the infrastructure that keeps them honest</strong>. At <strong>Helpsy</strong> I lead the engineering of a mental-health clinic platform: a fleet of .NET microservices, an API gateway, event-driven messaging and the CI/CD and observability around it.',
-      'Alongside .NET I write <strong>Go</strong>, most recently building a multi-service identity and access platform for a healthcare company with SSO, MFA, mutual-TLS and a policy decision point. Before that I built and operated a self-service payment kiosk network that has processed thousands of transactions a day for years.',
+      'I am a backend engineer who likes the hard parts: <strong>distributed systems, identity, payments and the infrastructure that keeps them honest</strong>. At <strong>Helpsy</strong> I lead the engineering of a mental-health clinic platform: the .NET backend, the frontend team and the delivery pipeline behind it.',
+      'Alongside .NET I write <strong>Go</strong>. For <strong>Barnabus</strong> I built the identity and access platform that signs users into their healthcare products. Before that I built and still operate a self-service payment kiosk network that has processed thousands of transactions a day for years.',
       'I am also a graduate student in Software Engineering at the University of Isfahan, and I care a lot about clean architecture, developer tooling and documentation that engineers actually read.',
     ],
     facts: [
@@ -50,6 +58,15 @@ export const profile = {
     ],
   },
 
+  principles: [
+    { title: 'Boring infrastructure, interesting products', text: 'PostgreSQL, Redis and a message broker cover most problems. Novelty goes into the domain, not the plumbing.' },
+    { title: 'Outbox or it did not happen', text: 'Every cross-service side effect goes through a transactional outbox with retries and a dead-letter queue. No fire-and-forget.' },
+    { title: 'Fail closed at the edge', text: 'The gateway rate-limits, validates and denies by default. Services trust the gateway, never the client.' },
+    { title: 'Measure before tuning', text: 'Traces and dashboards first. I only optimise what a p99 or a dashboard panel proves is slow.' },
+    { title: 'Docs are part of the code', text: 'Architecture decisions, runbooks and team commands live in the repo, next to the code they describe.' },
+    { title: 'Offline is a feature', text: 'Kiosks, mobile clients and flaky networks taught me store-and-forward, idempotency keys and reconciliation jobs.' },
+  ],
+
   experience: [
     {
       role: 'Senior Backend Engineer & Tech Lead',
@@ -57,20 +74,19 @@ export const profile = {
       orgUrl: 'https://helpsy.ir',
       period: 'Aug 2024 — Present',
       bullets: [
-        'Lead the backend of a mental-health clinic platform: 8 ASP.NET Core 9 microservices behind a YARP gateway, gRPC between services, MassTransit/RabbitMQ with a transactional outbox.',
-        'Own the platform: PostgreSQL, Redis, Hangfire jobs, GitLab CI pipelines, Docker deployments across dev/staging/prod, Grafana observability and a shared dev server.',
-        'Designed the security layer: opaque-session cookies swapped for JWTs at the gateway, idempotent token refresh, Redis rate limiting, hardened multi-tenant sub-domain hosting.',
-        'Delivered booking, payment gateway integration, settlement and reporting flows; lead the frontend team shipping Next.js and React panels.',
+        'Lead the architecture and delivery of a multi-tenant healthcare platform built on .NET microservices, gRPC and message-driven integration.',
+        'Own the platform end to end: data stores, CI/CD pipelines, containerised deployments across environments, observability and the shared development infrastructure.',
+        'Lead the frontend team shipping Next.js and React products, and set the engineering standards, code review and documentation practices for the team.',
       ],
     },
     {
       role: 'Go Engineer · Identity & Access Platform',
-      org: 'Healthcare company (confidential)',
+      org: 'Barnabus',
+      orgUrl: 'https://barnabus.ai',
       period: '2026',
       bullets: [
-        'Built a six-service Go IAM platform: gateway, auth, session, token/JWKS, policy decision point and admin, all on PostgreSQL and Redis.',
-        'Implemented SSO, MFA and step-up authentication, mutual-TLS confidential channels, key rotation, tenant lifecycle and an audit pipeline, instrumented with OpenTelemetry and Prometheus.',
-        'Took single sign-on live end to end across four products.',
+        'Built the Go identity and access platform for the Barnabus healthcare products: single sign-on, MFA and OAuth2 / OIDC flows on PostgreSQL and Redis.',
+        'Instrumented everything with OpenTelemetry and Prometheus, and delivered the admin and login front ends around it.',
       ],
     },
     {
@@ -78,7 +94,7 @@ export const profile = {
       org: 'Bar1',
       period: 'Oct 2023 — Apr 2024',
       bullets: [
-        'Built features for a logistics and freight platform: waybill workflows, bank B2B API integration and internal tooling in .NET.',
+        'Built features for a logistics and freight platform: shipping workflows, bank B2B API integration and internal tooling in .NET.',
       ],
     },
     {
@@ -102,15 +118,21 @@ export const profile = {
       name: 'Helpsy',
       sub: 'Mental-health clinic & therapy platform',
       description:
-        'A multi-tenant platform for clinics, therapists and organizations: booking with slot locking, payment gateway and settlement, psychology tests, ticketing, SMS reminders and per-tenant landing pages, all served from one deployment.',
-      stats: [
-        { value: '8', label: 'microservices' },
-        { value: '7', label: 'frontends' },
-        { value: '1', label: 'gateway (YARP)' },
-      ],
-      tags: ['.NET 9', 'gRPC', 'MassTransit', 'RabbitMQ', 'PostgreSQL', 'Redis', 'Hangfire', 'YARP', 'Next.js', 'GitLab CI', 'Docker'],
+        'A multi-tenant platform for clinics, therapists and organizations: online booking, payments, psychology tests, ticketing, SMS notifications and per-tenant sites. I lead the .NET backend, the frontend team and the delivery pipeline.',
+      tags: ['.NET', 'gRPC', 'RabbitMQ', 'PostgreSQL', 'Redis', 'Docker', 'Next.js', 'GitLab CI'],
       link: 'https://helpsy.ir',
       featured: true,
+    },
+    {
+      id: 'barnabus',
+      kicker: 'Go',
+      status: 'production',
+      name: 'Barnabus IAM',
+      sub: 'Identity & access for the Barnabus healthcare platform',
+      description:
+        'The Go identity provider behind the Barnabus healthcare products: single sign-on, multi-factor authentication and OAuth2 / OIDC flows, multi-tenant and fully audited, instrumented with OpenTelemetry and Prometheus.',
+      tags: ['Go', 'OAuth2 / OIDC', 'PostgreSQL', 'Redis', 'OpenTelemetry', 'Prometheus'],
+      link: 'https://barnabus.ai',
     },
     {
       id: 'kiosk',
@@ -119,7 +141,7 @@ export const profile = {
       name: 'Kiosk Management',
       sub: 'Self-service payment kiosks for a public-sector client',
       description:
-        'Central admin API plus an offline-first kiosk agent: bank PC-POS terminals (Sadad, FanAva), thermal receipt printers, SQLite store-and-forward with background sync workers, fleet auto-update and Windows kiosk mode.',
+        'Central admin API plus an offline-first kiosk agent: bank POS terminal and receipt-printer integration, local store-and-forward with background sync, fleet auto-update and locked-down Windows kiosk mode.',
       stats: [
         { value: 'Dozens', label: 'of kiosks' },
         { value: '1000s', label: 'transactions / day' },
@@ -128,27 +150,13 @@ export const profile = {
       tags: ['.NET 8', 'Clean Architecture', 'CQRS', 'EF Core', 'PostgreSQL', 'SQLite', 'Docker', 'Windows Services'],
     },
     {
-      id: 'iam',
-      kicker: 'Go',
-      status: 'confidential',
-      name: 'Healthcare IAM Platform',
-      sub: 'Identity & access for a healthcare product family',
-      description:
-        'Six Go services on one PostgreSQL schema: gateway, auth, session, token (JWKS), authorization policy decision point and admin. SSO, MFA, step-up auth, mutual-TLS channels, delegated sessions, key rotation and break-glass access.',
-      stats: [
-        { value: '6', label: 'Go services' },
-        { value: '4', label: 'products on SSO' },
-      ],
-      tags: ['Go', 'OAuth2 / OIDC', 'JWKS', 'mTLS', 'PostgreSQL', 'Redis', 'OpenTelemetry', 'Prometheus'],
-    },
-    {
       id: 'kiosell',
       kicker: 'Owner',
       status: 'in progress',
       name: 'KioSell',
       sub: 'Multi-tenant commerce & reservation SaaS',
       description:
-        'A .NET 10 modular monolith with an OpenIddict auth server, PostgreSQL row-level-security multi-tenancy, Redpanda/Kafka outbox-inbox messaging, full OpenTelemetry tracing and Testcontainers integration tests. Go gRPC gateways and a Next.js monorepo on the edges.',
+        'A .NET 10 modular monolith with a dedicated auth server, tenant data isolation in PostgreSQL, event-driven messaging with outbox and inbox, OpenTelemetry tracing and container-based integration tests. Go gRPC gateways and a Next.js monorepo on the edges.',
       tags: ['.NET 10', 'OpenIddict', 'Kafka', 'Redis', 'MinIO', 'OpenTelemetry', 'Testcontainers', 'Go', 'Next.js'],
     },
     {

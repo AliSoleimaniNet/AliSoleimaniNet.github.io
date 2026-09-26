@@ -1,5 +1,6 @@
 import { gsap, ScrollTrigger, scrollTo } from '../lib/scroll';
-import { isTouch } from '../lib/device';
+import type { Profile } from '../data/profile';
+import { NAV } from './render';
 
 /* ── typing effect ─────────────────────────────────────────────── */
 export function initTyping(roles: string[], reduced: boolean) {
@@ -19,54 +20,6 @@ export function initTyping(roles: string[], reduced: boolean) {
   };
   const loop = () => { i = (i + 1) % roles.length; type(roles[i], 0, () => erase(loop)); };
   setTimeout(() => erase(loop), 2200);
-}
-
-/* ── custom cursor ─────────────────────────────────────────────── */
-export function initCursor() {
-  if (isTouch) return;
-  const c = document.getElementById('cursor');
-  if (!c) return;
-  document.body.classList.add('has-cursor');
-  const ring = c.querySelector<HTMLElement>('.ring')!;
-  const dot = c.querySelector<HTMLElement>('.dot')!;
-  const rx = gsap.quickTo(ring, 'x', { duration: 0.35, ease: 'power3' });
-  const ry = gsap.quickTo(ring, 'y', { duration: 0.35, ease: 'power3' });
-  const dx = gsap.quickTo(dot, 'x', { duration: 0.08 });
-  const dy = gsap.quickTo(dot, 'y', { duration: 0.08 });
-  window.addEventListener('mousemove', (e) => { rx(e.clientX); ry(e.clientY); dx(e.clientX); dy(e.clientY); }, { passive: true });
-  document.addEventListener('mouseover', (e) => { if ((e.target as HTMLElement).closest('a, button, [data-hover]')) c.classList.add('is-hover'); });
-  document.addEventListener('mouseout', (e) => { if ((e.target as HTMLElement).closest('a, button, [data-hover]')) c.classList.remove('is-hover'); });
-  window.addEventListener('mousedown', () => c.classList.add('is-down'));
-  window.addEventListener('mouseup', () => c.classList.remove('is-down'));
-  document.addEventListener('mouseleave', () => { c.style.opacity = '0'; });
-  document.addEventListener('mouseenter', () => { c.style.opacity = ''; });
-}
-
-/* ── magnetic buttons ──────────────────────────────────────────── */
-export function initMagnetic() {
-  if (isTouch) return;
-  document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach((el) => {
-    const x = gsap.quickTo(el, 'x', { duration: 0.5, ease: 'power3' });
-    const y = gsap.quickTo(el, 'y', { duration: 0.5, ease: 'power3' });
-    el.addEventListener('mousemove', (e) => {
-      const r = el.getBoundingClientRect();
-      x((e.clientX - (r.left + r.width / 2)) * 0.32);
-      y((e.clientY - (r.top + r.height / 2)) * 0.32);
-    });
-    el.addEventListener('mouseleave', () => { x(0); y(0); });
-  });
-}
-
-/* ── card spotlight ────────────────────────────────────────────── */
-export function initTilt() {
-  if (isTouch) return;
-  document.querySelectorAll<HTMLElement>('[data-tilt]').forEach((el) => {
-    el.addEventListener('mousemove', (e) => {
-      const r = el.getBoundingClientRect();
-      el.style.setProperty('--mx', `${((e.clientX - r.left) / r.width) * 100}%`);
-      el.style.setProperty('--my', `${((e.clientY - r.top) / r.height) * 100}%`);
-    });
-  });
 }
 
 /* ── scroll reveals ────────────────────────────────────────────── */
@@ -112,9 +65,100 @@ export function toast(msg: string) {
   toastTimer = window.setTimeout(() => t.classList.remove('show'), 2200);
 }
 
+export async function copyEmail(email: string) {
+  try { await navigator.clipboard.writeText(email); toast('Email copied to clipboard'); }
+  catch { toast(email); }
+}
+
 export function initCopyEmail(email: string) {
-  document.getElementById('copy-email')?.addEventListener('click', async () => {
-    try { await navigator.clipboard.writeText(email); toast('Email copied to clipboard'); }
-    catch { toast(email); }
+  document.getElementById('copy-email')?.addEventListener('click', () => void copyEmail(email));
+}
+
+/* ── local time in Isfahan ─────────────────────────────────────── */
+export function initClock(timeZone: string) {
+  const el = document.getElementById('clock');
+  if (!el) return;
+  const fmt = new Intl.DateTimeFormat('en-GB', { timeZone, hour: '2-digit', minute: '2-digit' });
+  const tick = () => { el.textContent = fmt.format(new Date()); };
+  tick();
+  setInterval(tick, 20_000);
+}
+
+/* ── graphics quality control ──────────────────────────────────── */
+export type GfxMode = 'auto' | 'high' | 'lite' | 'off';
+const GFX_ORDER: GfxMode[] = ['auto', 'high', 'lite', 'off'];
+const GFX_LABEL: Record<GfxMode, string> = { auto: 'Auto', high: 'High', lite: 'Lite', off: 'Off' };
+
+export function loadGfx(): GfxMode {
+  try { const v = localStorage.getItem('gfx') as GfxMode | null; return v && GFX_ORDER.includes(v) ? v : 'auto'; } catch { return 'auto'; }
+}
+
+export function initGfxControl(onChange: (mode: GfxMode) => void) {
+  let mode = loadGfx();
+  const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.gfx'));
+  const paint = (detail?: string) => buttons.forEach((b) => {
+    b.querySelector('span')!.textContent = detail ? `${GFX_LABEL[mode]} · ${detail}` : GFX_LABEL[mode];
+    b.dataset.mode = mode;
+  });
+  const set = (m: GfxMode) => {
+    mode = m;
+    try { localStorage.setItem('gfx', m); } catch { /* ignore */ }
+    paint();
+    onChange(m);
+  };
+  buttons.forEach((b) => b.addEventListener('click', () => set(GFX_ORDER[(GFX_ORDER.indexOf(mode) + 1) % GFX_ORDER.length])));
+  paint();
+  return { get: () => mode, set, paint };
+}
+
+/* ── command palette (Ctrl+K) ──────────────────────────────────── */
+interface Cmd { label: string; hint: string; run: () => void; keywords?: string }
+
+export function initPalette(p: Profile, extra: Cmd[]) {
+  const root = document.getElementById('palette')!;
+  const input = document.getElementById('pal-input') as HTMLInputElement;
+  const list = document.getElementById('pal-list')!;
+  const cmds: Cmd[] = [
+    ...NAV.map(([id, label]) => ({ label: `Go to ${label}`, hint: 'section', run: () => scrollTo(`#${id}`), keywords: id })),
+    { label: 'Go to top', hint: 'section', run: () => scrollTo('#top'), keywords: 'home hero' },
+    { label: 'Open GitHub profile', hint: 'link', run: () => window.open(p.meta.github, '_blank', 'noopener') },
+    { label: 'Open LinkedIn', hint: 'link', run: () => window.open(p.meta.linkedin, '_blank', 'noopener') },
+    { label: 'Open Helpsy', hint: 'link', run: () => window.open('https://helpsy.ir', '_blank', 'noopener') },
+    { label: 'Open Barnabus', hint: 'link', run: () => window.open('https://barnabus.ai', '_blank', 'noopener') },
+    { label: 'Copy email address', hint: p.meta.email, run: () => void copyEmail(p.meta.email), keywords: 'mail contact' },
+    { label: 'Send an email', hint: 'mailto', run: () => { location.href = `mailto:${p.meta.email}`; } },
+    ...extra,
+  ];
+  let filtered = cmds;
+  let sel = 0;
+  let open = false;
+
+  const render = () => {
+    list.innerHTML = filtered.map((c, i) => `<li role="option" class="${i === sel ? 'is-sel' : ''}" data-i="${i}"><span>${c.label}</span><small>${c.hint}</small></li>`).join('')
+      || '<li class="empty">Nothing matches.</li>';
+  };
+  const filter = () => {
+    const q = input.value.trim().toLowerCase();
+    filtered = q ? cmds.filter((c) => `${c.label} ${c.hint} ${c.keywords ?? ''}`.toLowerCase().includes(q)) : cmds;
+    sel = 0;
+    render();
+  };
+  const show = () => { open = true; root.classList.add('open'); input.value = ''; filter(); setTimeout(() => input.focus(), 30); };
+  const hide = () => { open = false; root.classList.remove('open'); input.blur(); };
+  const pick = (i: number) => { const c = filtered[i]; if (!c) return; hide(); c.run(); };
+
+  document.getElementById('palette-open')?.addEventListener('click', show);
+  root.querySelector('[data-pal-close]')?.addEventListener('click', hide);
+  input.addEventListener('input', filter);
+  list.addEventListener('click', (e) => { const li = (e.target as HTMLElement).closest<HTMLElement>('li[data-i]'); if (li) pick(Number(li.dataset.i)); });
+  window.addEventListener('keydown', (e) => {
+    const inField = (e.target as HTMLElement).tagName === 'INPUT' || (e.target as HTMLElement).tagName === 'TEXTAREA';
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); open ? hide() : show(); return; }
+    if (!open && !inField && e.key === '/') { e.preventDefault(); show(); return; }
+    if (!open) return;
+    if (e.key === 'Escape') { e.preventDefault(); hide(); }
+    else if (e.key === 'ArrowDown') { e.preventDefault(); sel = Math.min(sel + 1, filtered.length - 1); render(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); sel = Math.max(sel - 1, 0); render(); }
+    else if (e.key === 'Enter') { e.preventDefault(); pick(sel); }
   });
 }

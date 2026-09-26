@@ -3,14 +3,19 @@ import { icons } from './icons';
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-const NAV = [
-  ['about', 'About'], ['experience', 'Experience'], ['projects', 'Projects'], ['stack', 'Stack'], ['github', 'GitHub'], ['contact', 'Contact'],
+export const NAV: [string, string][] = [
+  ['about', 'About'], ['experience', 'Experience'], ['projects', 'Projects'], ['architecture', 'Architecture'],
+  ['stack', 'Stack'], ['github', 'GitHub'], ['contact', 'Contact'],
 ];
 
 function nav(p: Profile) {
   return `
-    <a class="logo" href="#top" data-hover><i></i>${esc(p.meta.name)}</a>
-    <ul>${NAV.map(([id, l]) => `<li><a class="link" href="#${id}" data-nav="${id}" data-hover>${l}</a></li>`).join('')}</ul>`;
+    <a class="logo" href="#top"><i></i>${esc(p.meta.name)}</a>
+    <ul>${NAV.map(([id, l]) => `<li><a class="link" href="#${id}" data-nav="${id}">${l}</a></li>`).join('')}</ul>
+    <div class="tools">
+      <button type="button" class="tool" id="palette-open" aria-label="Open command palette" title="Command palette (Ctrl+K)"><kbd>Ctrl</kbd><kbd>K</kbd></button>
+      <button type="button" class="tool gfx" id="gfx" aria-label="Graphics quality" title="Graphics quality"><i></i><span>Auto</span></button>
+    </div>`;
 }
 
 function hero(p: Profile) {
@@ -26,9 +31,9 @@ function hero(p: Profile) {
       <p class="typing" data-reveal><span class="t" id="typed">${esc(p.hero.roles[0])}</span><span class="caret"></span></p>
       <p class="lead" data-reveal>${esc(p.hero.tagline)}</p>
       <div class="cta" data-reveal>
-        <a class="btn btn-primary" href="#projects" data-magnetic data-hover><span class="label">See my work</span>${icons.arrow}</a>
-        <a class="btn btn-ghost" href="#contact" data-magnetic data-hover><span class="label">Get in touch</span></a>
-        <a class="btn btn-ghost" href="${p.meta.github}" target="_blank" rel="noopener" data-magnetic data-hover>${icons.github}<span class="label">GitHub</span></a>
+        <a class="btn btn-primary" href="#projects"><span class="label">See my work</span>${icons.arrow}</a>
+        <a class="btn btn-ghost" href="#contact"><span class="label">Get in touch</span></a>
+        <a class="btn btn-ghost" href="${p.meta.github}" target="_blank" rel="noopener">${icons.github}<span class="label">GitHub</span></a>
       </div>
       <div class="meta" data-reveal>${p.hero.chips.map((c) => `<span class="chip">${esc(c)}</span>`).join('')}</div>
     </div>
@@ -74,7 +79,7 @@ function experience(p: Profile) {
           <div class="tl" data-reveal>
             <div class="card">
               <div class="top">
-                <h3>${esc(e.role)} <span class="org">· ${'orgUrl' in e && e.orgUrl ? `<a href="${e.orgUrl}" target="_blank" rel="noopener" data-hover>${esc(e.org)}</a>` : esc(e.org)}</span></h3>
+                <h3>${esc(e.role)} <span class="org">· ${'orgUrl' in e && e.orgUrl ? `<a href="${e.orgUrl}" target="_blank" rel="noopener">${esc(e.org)}</a>` : esc(e.org)}</span></h3>
                 <span class="period">${esc(e.period)}</span>
               </div>
               <ul>${e.bullets.map((b) => `<li>${esc(b)}</li>`).join('')}</ul>
@@ -89,13 +94,13 @@ function experience(p: Profile) {
 }
 
 function projectCard(pr: Project) {
-  const status = { production: 'Production', 'in progress': 'In progress', 'open source': 'Open source', confidential: 'Confidential' }[pr.status];
+  const status = { production: 'Production', 'in progress': 'In progress', 'open source': 'Open source' }[pr.status];
   const links = [
-    pr.link ? `<a href="${pr.link}" target="_blank" rel="noopener" data-hover>Visit ${icons.arrowUpRight}</a>` : '',
-    pr.repo ? `<a href="${pr.repo}" target="_blank" rel="noopener" data-hover>Source ${icons.arrowUpRight}</a>` : '',
+    pr.link ? `<a href="${pr.link}" target="_blank" rel="noopener">Visit ${icons.arrowUpRight}</a>` : '',
+    pr.repo ? `<a href="${pr.repo}" target="_blank" rel="noopener">Source ${icons.arrowUpRight}</a>` : '',
   ].join('');
   return `
-    <article class="card pc ${pr.featured ? 'featured' : ''}" data-reveal data-tilt>
+    <article class="card pc ${pr.featured ? 'featured' : ''}" data-reveal>
       <div class="kicker"><span>${esc(pr.kicker)}</span><span class="st"><i></i>${status}</span></div>
       <h3>${esc(pr.name)}</h3>
       <div class="sub">${esc(pr.sub)}</div>
@@ -114,7 +119,46 @@ function projects(p: Profile) {
       <h2 class="h2" data-reveal>Systems I have built<br>and still run.</h2>
       <p class="lead" data-reveal>Most of my day-to-day work lives in private GitLab and GitHub organizations. These are the ones I can talk about.</p>
       <div class="grid">${p.projects.map(projectCard).join('')}</div>
-      <p class="more" data-reveal>More experiments on <a href="${p.meta.github}?tab=repositories" target="_blank" rel="noopener" data-hover>GitHub</a>: proxy tooling, metaheuristics, a WinForms chess with online play, a Persian calendar library and more.</p>
+      <p class="more" data-reveal>More experiments on <a href="${p.meta.github}?tab=repositories" target="_blank" rel="noopener">GitHub</a>: proxy tooling, metaheuristics, a WinForms chess with online play, a Persian calendar library and more.</p>
+    </div>
+  </section>`;
+}
+
+function architecture(_p: Profile) {
+  return `
+  <section class="arch" id="architecture">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>Architecture</p>
+      <h2 class="h2" data-reveal>The shape I reach for.</h2>
+      <p class="lead" data-reveal>A reference architecture, not any one product: requests enter through a single fail-closed gateway, services own their data and talk over gRPC, and every cross-service side effect goes through a transactional outbox on a message broker.</p>
+      <div class="card diagram" data-reveal>
+        <img src="/architecture.svg" alt="Reference architecture: clients, an API gateway, independent services, and a PostgreSQL, Redis, message broker, job scheduler, observability and CI/CD layer" loading="lazy" width="1200" height="560" />
+      </div>
+      <div class="callouts">
+        ${[
+          ['Edge', 'One gateway handles authentication, rate limiting and routing, and denies by default. Services never trust the client directly.'],
+          ['Messaging', 'A transactional outbox on the broker, retries with dead-letter queues, and idempotent consumers. Nothing is fire-and-forget.'],
+          ['Operations', 'Containerised deployments per environment, pipelines that run tests against real dependencies, and traces, metrics and logs from day one.'],
+        ].map(([t, d]) => `<div class="card co" data-reveal><b>${t}</b><p>${d}</p></div>`).join('')}
+      </div>
+    </div>
+  </section>`;
+}
+
+function principles(p: Profile) {
+  return `
+  <section class="principles" id="principles">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>How I work</p>
+      <h2 class="h2" data-reveal>Principles I keep coming back to.</h2>
+      <div class="grid">
+        ${p.principles.map((pr, i) => `
+          <div class="card pr" data-reveal>
+            <span class="num">${String(i + 1).padStart(2, '0')}</span>
+            <b>${esc(pr.title)}</b>
+            <p>${esc(pr.text)}</p>
+          </div>`).join('')}
+      </div>
     </div>
   </section>`;
 }
@@ -123,7 +167,7 @@ function stackItem(i: StackItem) {
   const vis = i.icon
     ? `<img src="/icons/${i.icon}.svg" alt="" width="22" height="22" loading="lazy" />`
     : `<span class="ph">${esc(i.short ?? i.label.slice(0, 2))}</span>`;
-  return `<span class="si" data-hover>${vis}${esc(i.label)}</span>`;
+  return `<span class="si">${vis}${esc(i.label)}</span>`;
 }
 
 function stack(p: Profile) {
@@ -148,7 +192,7 @@ function github(p: Profile) {
           <p class="eyebrow" data-reveal>GitHub · live</p>
           <h2 class="h2" data-reveal>What I am pushing.</h2>
         </div>
-        <a class="btn btn-ghost" href="${p.meta.github}" target="_blank" rel="noopener" data-magnetic data-hover data-reveal>${icons.github}<span class="label">@${esc(p.meta.handle)}</span></a>
+        <a class="btn btn-ghost" href="${p.meta.github}" target="_blank" rel="noopener" data-reveal>${icons.github}<span class="label">@${esc(p.meta.handle)}</span></a>
       </div>
       <div id="gh-stats" class="stats" data-reveal><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
       <div id="gh-repos" class="repos"></div>
@@ -170,14 +214,15 @@ function contact(p: Profile) {
           <h2 class="h2">Let us build something<br>that stays up.</h2>
           <p class="lead">Open to backend, platform and tech-lead roles, consulting on .NET and Go systems, and interesting collaborations.</p>
           <div class="email">
-            <a href="mailto:${p.meta.email}" data-hover>${esc(p.meta.email)}</a>
-            <button type="button" id="copy-email" aria-label="Copy email" data-hover>${icons.copy}</button>
+            <a href="mailto:${p.meta.email}">${esc(p.meta.email)}</a>
+            <button type="button" id="copy-email" aria-label="Copy email">${icons.copy}</button>
           </div>
+          <p class="clock"><i></i><span id="clock">--:--</span> in ${esc(p.meta.location.split(',')[0])} · I usually reply within a day</p>
         </div>
         <div class="links">
-          <a href="mailto:${p.meta.email}" data-hover>${icons.mail}<span><b>Email</b><small>Fastest way to reach me</small></span></a>
-          <a href="${p.meta.linkedin}" target="_blank" rel="noopener" data-hover>${icons.linkedin}<span><b>LinkedIn</b><small>Career, roles and background</small></span></a>
-          <a href="${p.meta.github}" target="_blank" rel="noopener" data-hover>${icons.github}<span><b>GitHub</b><small>Code, experiments and activity</small></span></a>
+          <a href="mailto:${p.meta.email}">${icons.mail}<span><b>Email</b><small>Fastest way to reach me</small></span></a>
+          <a href="${p.meta.linkedin}" target="_blank" rel="noopener">${icons.linkedin}<span><b>LinkedIn</b><small>Career, roles and background</small></span></a>
+          <a href="${p.meta.github}" target="_blank" rel="noopener">${icons.github}<span><b>GitHub</b><small>Code, experiments and activity</small></span></a>
         </div>
       </div>
     </div>
@@ -187,11 +232,25 @@ function contact(p: Profile) {
 function footer(p: Profile) {
   return `
     <span>© ${new Date().getFullYear()} ${esc(p.meta.name)} · ${esc(p.meta.location)}</span>
-    <span>Built with Three.js, GSAP and Vite · <a href="https://github.com/AliSoleimaniNet/AliSoleimaniNet.github.io" target="_blank" rel="noopener" data-hover>source</a></span>`;
+    <span class="fright">
+      <button type="button" class="tool gfx" id="gfx-footer"><i></i><span>Auto</span></button>
+      Built with Three.js, GSAP and Vite · <a href="https://github.com/AliSoleimaniNet/AliSoleimaniNet.github.io" target="_blank" rel="noopener">source</a>
+    </span>`;
+}
+
+export function palette(p: Profile) {
+  return `
+    <div class="pal-backdrop" data-pal-close></div>
+    <div class="pal" role="dialog" aria-modal="true" aria-label="Command palette">
+      <div class="pal-in"><span>›</span><input id="pal-input" type="text" placeholder="Jump to a section, open a link, change graphics…" autocomplete="off" spellcheck="false" /><kbd>esc</kbd></div>
+      <ul id="pal-list" role="listbox"></ul>
+      <div class="pal-foot"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> select</span><span>${esc(p.meta.name)} · ${esc(p.meta.handle)}</span></div>
+    </div>`;
 }
 
 export function renderAll(p: Profile) {
   document.getElementById('nav')!.innerHTML = nav(p);
-  document.getElementById('app')!.innerHTML = [hero, about, experience, projects, stack, github, contact].map((f) => f(p)).join('');
+  document.getElementById('app')!.innerHTML = [hero, about, experience, projects, architecture, principles, stack, github, contact].map((f) => f(p)).join('');
   document.getElementById('footer')!.innerHTML = footer(p);
+  document.getElementById('palette')!.innerHTML = palette(p);
 }

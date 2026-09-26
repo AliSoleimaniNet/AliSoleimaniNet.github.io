@@ -79,13 +79,19 @@ export function createPackets(graph: Graph, count: number, color: string, onArri
   mesh.frustumCulled = false;
 
   let time = 0;
+  let active = count;
   return {
     mesh,
+    /** Limit how many packets are simulated and drawn (quality tiers). */
+    setCount(n: number) {
+      active = Math.max(0, Math.min(count, Math.floor(n)));
+      geo.instanceCount = active * TRAIL;
+    },
     update(dt: number) {
       time += dt;
       mat.uniforms.uTime.value = time;
       // packets that wrapped around have arrived: pulse the target node
-      for (let k = 0; k < count; k++) {
+      for (let k = 0; k < active; k++) {
         const t = (seedOf[k] + time * speedOf[k]) % 1;
         if (t < lastT[k]) onArrive(graph.edges[edgeOf[k]].b);
         lastT[k] = t;
