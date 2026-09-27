@@ -164,3 +164,61 @@ section { position: relative; z-index: 2; padding: clamp(80px, 12vh, 140px) 0; }
 #toast.show { opacity: 1; transform: translate(-50%, 0); }
 
 @media (prefers-reduced-motion: reduce) { .grain { animation: none; } }
+
+/* ── packet cursor ──────────────────────────────────────────────── */
+html.has-cursor, html.has-cursor body, html.has-cursor a, html.has-cursor button { cursor: none; }
+html.has-cursor input, html.has-cursor textarea { cursor: text; }
+#cursor { position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: 0; transition: opacity .25s; }
+#cursor.is-visible { opacity: 1; }
+#cursor.is-typing { opacity: 0; }
+#trail { position: absolute; inset: 0; width: 100%; height: 100%; }
+.c-dot { position: absolute; left: -3px; top: -3px; width: 6px; height: 6px; border-radius: 50%; background: var(--hot); box-shadow: 0 0 10px var(--accent), 0 0 2px #fff; }
+.c-ring { position: absolute; left: 0; top: 0; width: 26px; height: 26px; border-radius: 13px; border: 1px solid rgba(34, 211, 238, .45); transition: border-color .25s, background .25s; }
+.c-ring b { position: absolute; width: 8px; height: 8px; border: 0 solid var(--accent); opacity: 0; transition: opacity .2s; }
+.c-ring b:nth-child(1) { left: -2px; top: -2px; border-top-width: 2px; border-left-width: 2px; border-top-left-radius: 4px; }
+.c-ring b:nth-child(2) { right: -2px; top: -2px; border-top-width: 2px; border-right-width: 2px; border-top-right-radius: 4px; }
+.c-ring b:nth-child(3) { left: -2px; bottom: -2px; border-bottom-width: 2px; border-left-width: 2px; border-bottom-left-radius: 4px; }
+.c-ring b:nth-child(4) { right: -2px; bottom: -2px; border-bottom-width: 2px; border-right-width: 2px; border-bottom-right-radius: 4px; }
+#cursor.is-snapped .c-ring { border-color: rgba(34, 211, 238, .16); background: rgba(34, 211, 238, .035); }
+#cursor.is-snapped .c-ring b { opacity: 1; }
+#cursor.is-snapped .c-dot { transform-origin: center; }
+#cursor.is-down .c-ring { border-color: var(--accent); }
+.c-label {
+  position: absolute; left: 0; top: 0; white-space: nowrap; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .06em;
+  color: #041014; background: var(--accent); padding: 2px 7px; border-radius: 5px; opacity: 0; transition: opacity .18s;
+  box-shadow: 0 6px 20px -6px rgba(34, 211, 238, .6);
+}
+#cursor.has-label .c-label { opacity: 1; }
+.c-pulse { position: absolute; left: -14px; top: -14px; width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--accent); animation: cpulse .55s var(--ease) forwards; }
+@keyframes cpulse { from { opacity: .9; scale: .4; } to { opacity: 0; scale: 2.2; } }
+
+/* ── boot sequence ──────────────────────────────────────────────── */
+#boot { position: fixed; inset: 0; z-index: 95; display: none; place-items: center; background: var(--bg); transition: opacity .6s var(--ease), visibility .6s; }
+#boot.on { display: grid; }
+#boot.done { opacity: 0; visibility: hidden; }
+#boot pre { font-family: var(--font-mono); font-size: 13px; line-height: 1.9; color: var(--muted); margin: 0; min-width: min(460px, 86vw); }
+#boot pre span { color: var(--text); }
+#boot pre b { color: #34d399; font-weight: 600; margin-left: 10px; }
+#boot pre span:first-child { color: var(--accent); }
+
+/* ── nav: terminal path + scroll progress ───────────────────────── */
+.nav .logo .path { font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: var(--accent); margin-left: 4px; opacity: .85; letter-spacing: 0; }
+.nav .progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 1.5px; overflow: hidden; pointer-events: none; }
+.nav .progress i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transform-origin: left; transform: scaleX(0); box-shadow: 0 0 10px var(--accent); }
+
+/* ── numbered eyebrows ──────────────────────────────────────────── */
+.eyebrow .n { color: var(--text); opacity: .5; margin-right: 2px; }
+
+/* ── cards: pointer-following border light ──────────────────────── */
+.card { position: relative; }
+.card::before {
+  content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; pointer-events: none; opacity: 0; transition: opacity .35s;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(34, 211, 238, .75), rgba(167, 139, 250, .35) 40%, transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+}
+.card:hover::before { opacity: 1; }
+
+/* ── deep links from the GitHub profile (#project-helpsy …) ─────── */
+section[id], .pc { scroll-margin-top: 90px; }
+.pc:target { animation: targetflash 2.4s var(--ease) 1; }
+@keyframes targetflash { 0%, 30% { box-shadow: 0 0 0 1px var(--accent), 0 0 60px -10px rgba(34, 211, 238, .6); } 100% { box-shadow: none; } }

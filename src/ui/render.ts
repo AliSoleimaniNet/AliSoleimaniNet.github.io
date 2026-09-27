@@ -10,7 +10,8 @@ export const NAV: [string, string][] = [
 
 function nav(p: Profile) {
   return `
-    <a class="logo" href="#top"><i></i>${esc(p.meta.name)}</a>
+    <a class="logo" href="#top" data-cursor="top"><i></i>${esc(p.meta.name)}<span class="path" id="nav-path">~/</span></a>
+    <span class="progress" aria-hidden="true"><i id="progress"></i></span>
     <ul>${NAV.map(([id, l]) => `<li><a class="link" href="#${id}" data-nav="${id}">${l}</a></li>`).join('')}</ul>
     <div class="tools">
       <button type="button" class="tool" id="palette-open" aria-label="Open command palette" title="Command palette (Ctrl+K)"><kbd>Ctrl</kbd><kbd>K</kbd></button>
@@ -46,7 +47,7 @@ function about(p: Profile) {
   return `
   <section class="about" id="about">
     <div class="wrap">
-      <p class="eyebrow" data-reveal>About</p>
+      <p class="eyebrow" data-reveal><span class="n">01</span>About</p>
       <h2 class="h2" data-reveal>Backend engineer, tech lead,<br>systems person.</h2>
       <div class="grid">
         <div class="bio">${p.about.bio.map((b) => `<p data-reveal>${b}</p>`).join('')}</div>
@@ -72,7 +73,7 @@ function experience(p: Profile) {
   return `
   <section class="experience" id="experience">
     <div class="wrap">
-      <p class="eyebrow" data-reveal>Experience</p>
+      <p class="eyebrow" data-reveal><span class="n">02</span>Experience</p>
       <h2 class="h2" data-reveal>Where I have shipped.</h2>
       <div class="timeline">
         ${p.experience.map((e) => `
@@ -100,7 +101,7 @@ function projectCard(pr: Project) {
     pr.repo ? `<a href="${pr.repo}" target="_blank" rel="noopener">Source ${icons.arrowUpRight}</a>` : '',
   ].join('');
   return `
-    <article class="card pc ${pr.featured ? 'featured' : ''}" data-reveal>
+    <article class="card pc ${pr.featured ? 'featured' : ''}" id="project-${pr.id}" data-reveal>
       <div class="kicker"><span>${esc(pr.kicker)}</span><span class="st"><i></i>${status}</span></div>
       <h3>${esc(pr.name)}</h3>
       <div class="sub">${esc(pr.sub)}</div>
@@ -115,7 +116,7 @@ function projects(p: Profile) {
   return `
   <section class="projects" id="projects">
     <div class="wrap">
-      <p class="eyebrow" data-reveal>Projects</p>
+      <p class="eyebrow" data-reveal><span class="n">03</span>Projects</p>
       <h2 class="h2" data-reveal>Systems I have built<br>and still run.</h2>
       <p class="lead" data-reveal>Most of my day-to-day work lives in private GitLab and GitHub organizations. These are the ones I can talk about.</p>
       <div class="grid">${p.projects.map(projectCard).join('')}</div>
@@ -128,7 +129,7 @@ function architecture(_p: Profile) {
   return `
   <section class="arch" id="architecture">
     <div class="wrap">
-      <p class="eyebrow" data-reveal>Architecture</p>
+      <p class="eyebrow" data-reveal><span class="n">04</span>Architecture</p>
       <h2 class="h2" data-reveal>The shape I reach for.</h2>
       <p class="lead" data-reveal>A reference architecture, not any one product: requests enter through a single fail-closed gateway, services own their data and talk over gRPC, and every cross-service side effect goes through a transactional outbox on a message broker.</p>
       <div class="card diagram" data-reveal>
@@ -149,7 +150,7 @@ function principles(p: Profile) {
   return `
   <section class="principles" id="principles">
     <div class="wrap">
-      <p class="eyebrow" data-reveal>How I work</p>
+      <p class="eyebrow" data-reveal><span class="n">05</span>How I work</p>
       <h2 class="h2" data-reveal>Principles I keep coming back to.</h2>
       <div class="grid">
         ${p.principles.map((pr, i) => `
@@ -174,7 +175,7 @@ function stack(p: Profile) {
   return `
   <section class="stack" id="stack">
     <div class="wrap">
-      <p class="eyebrow" data-reveal>Stack</p>
+      <p class="eyebrow" data-reveal><span class="n">06</span>Stack</p>
       <h2 class="h2" data-reveal>Tools I reach for.</h2>
       <div class="groups">
         ${p.stack.map((g) => `<div class="card sg" data-reveal><h3>${esc(g.group)}</h3><div class="items">${g.items.map(stackItem).join('')}</div></div>`).join('')}
@@ -189,7 +190,7 @@ function github(p: Profile) {
     <div class="wrap">
       <div class="head">
         <div>
-          <p class="eyebrow" data-reveal>GitHub · live</p>
+          <p class="eyebrow" data-reveal><span class="n">07</span>GitHub · live</p>
           <h2 class="h2" data-reveal>What I am pushing.</h2>
         </div>
         <a class="btn btn-ghost" href="${p.meta.github}" target="_blank" rel="noopener" data-reveal>${icons.github}<span class="label">@${esc(p.meta.handle)}</span></a>
@@ -208,7 +209,7 @@ function contact(p: Profile) {
   return `
   <section class="contact" id="contact">
     <div class="wrap">
-      <p class="eyebrow" data-reveal>Contact</p>
+      <p class="eyebrow" data-reveal><span class="n">08</span>Contact</p>
       <div class="card panel" data-reveal>
         <div>
           <h2 class="h2">Let us build something<br>that stays up.</h2>

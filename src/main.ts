@@ -7,13 +7,17 @@ import './styles/sections.css';
 
 import { profile } from './data/profile';
 import { renderAll } from './ui/render';
-import { initScroll } from './lib/scroll';
+import { initScroll, scrollTo } from './lib/scroll';
 import { hasWebGL, isLowEnd, isTouch, reducedMotion } from './lib/device';
-import { initClock, initCopyEmail, initGfxControl, initNav, initPalette, initReveal, initTyping, loadGfx, type GfxMode } from './ui/effects';
+import { initClock, initCopyEmail, initGfxControl, initNav, initPalette, initProgress, initReveal, initSpotlight, initTyping, loadGfx, runBoot, type GfxMode } from './ui/effects';
+import { initCursor } from './ui/cursor';
 import { initGithubSection } from './ui/github-section';
 import type { SceneHandle, Tier } from './three/scene';
 
 renderAll(profile);
+// arriving from a deep link (e.g. the GitHub profile's cards): skip the intro and go straight there
+const deepLink = location.hash.length > 1 ? document.querySelector<HTMLElement>(location.hash) : null;
+runBoot(reducedMotion || !!deepLink);
 
 initScroll(!reducedMotion && !isTouch);
 initNav();
@@ -21,7 +25,11 @@ initReveal(reducedMotion);
 initTyping(profile.hero.roles, reducedMotion);
 initCopyEmail(profile.meta.email);
 initClock(profile.meta.timeZone);
+initProgress();
+initSpotlight();
+initCursor();
 void initGithubSection(profile);
+if (deepLink) setTimeout(() => { scrollTo(deepLink); }, 350);
 
 /* ── 3D scene with adaptive quality ─────────────────────────────── */
 const canvas = document.getElementById('bg') as HTMLCanvasElement | null;

@@ -38,7 +38,11 @@ export function initReveal(reduced: boolean) {
 export function initNav() {
   const nav = document.getElementById('nav')!;
   const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-nav]'));
-  const setActive = (id: string) => links.forEach((l) => l.classList.toggle('is-active', l.dataset.nav === id));
+  const path = document.getElementById('nav-path');
+  const setActive = (id: string) => {
+    links.forEach((l) => l.classList.toggle('is-active', l.dataset.nav === id));
+    if (path) path.textContent = id === 'top' ? '~/' : `~/${id}`;
+  };
   document.querySelectorAll('section[id]').forEach((s) => {
     ScrollTrigger.create({ trigger: s, start: 'top 45%', end: 'bottom 45%', onToggle: (st) => { if (st.isActive) setActive(s.id); } });
   });
@@ -161,4 +165,56 @@ export function initPalette(p: Profile, extra: Cmd[]) {
     else if (e.key === 'ArrowUp') { e.preventDefault(); sel = Math.max(sel - 1, 0); render(); }
     else if (e.key === 'Enter') { e.preventDefault(); pick(sel); }
   });
+}
+
+/* ── scroll progress under the nav ─────────────────────────────── */
+export function initProgress() {
+  const bar = document.getElementById('progress');
+  if (!bar) return;
+  ScrollTrigger.create({ start: 0, end: 'max', onUpdate: (st) => { bar.style.transform = `scaleX(${st.progress.toFixed(4)})`; } });
+}
+
+/* ── pointer-following border light on cards ───────────────────── */
+export function initSpotlight() {
+  document.addEventListener('pointermove', (e) => {
+    const card = (e.target as HTMLElement).closest<HTMLElement>('.card');
+    if (!card) return;
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', `${e.clientX - r.left}px`);
+    card.style.setProperty('--my', `${e.clientY - r.top}px`);
+  }, { passive: true });
+}
+
+/* ── boot sequence, once per session ───────────────────────────── */
+export function runBoot(reduced: boolean) {
+  const root = document.getElementById('boot');
+  const log = document.getElementById('boot-log');
+  if (!root || !log) return;
+  let seen = false;
+  try { seen = sessionStorage.getItem('booted') === '1'; sessionStorage.setItem('booted', '1'); } catch { /* ignore */ }
+  if (seen || reduced) { root.remove(); return; }
+  const lines = [
+    ['$ ssh ali@alisoleimaninet.github.io', ''],
+    ['  resolving gateway', 'ok'],
+    ['  starting services  identity · booking · billing', 'ok'],
+    ['  connecting postgres · redis · broker', 'ok'],
+    ['  warming the mesh', 'ok'],
+  ];
+  root.classList.add('on');
+  let i = 0;
+  const step = () => {
+    if (i < lines.length) {
+      const [t, st] = lines[i++];
+      log.innerHTML += `<span>${t}</span>${st ? `<b>${st}</b>` : ''}
+`;
+      setTimeout(step, i === 1 ? 260 : 150);
+    } else {
+      setTimeout(() => { root.classList.add('done'); setTimeout(() => root.remove(), 700); }, 220);
+    }
+  };
+  step();
+  // any interaction skips it
+  const skip = () => { root.classList.add('done'); setTimeout(() => root.remove(), 500); };
+  window.addEventListener('keydown', skip, { once: true });
+  root.addEventListener('pointerdown', skip, { once: true });
 }

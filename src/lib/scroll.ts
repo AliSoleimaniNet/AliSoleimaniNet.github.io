@@ -39,7 +39,7 @@ export function initScroll(smooth: boolean): Lenis | null {
 }
 
 export function scrollTo(target: string | HTMLElement) {
-  if (lenis) lenis.scrollTo(target, { offset: -20, duration: 1.4 });
+  if (lenis) lenis.scrollTo(target, { offset: -96, duration: 1.4 });
   else (typeof target === 'string' ? document.querySelector(target) : target)?.scrollIntoView({ behavior: 'smooth' });
 }
 
