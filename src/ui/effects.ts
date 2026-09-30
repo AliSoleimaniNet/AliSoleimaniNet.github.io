@@ -130,6 +130,7 @@ export function initPalette(p: Profile, extra: Cmd[]) {
     { label: 'Open Helpsy', hint: 'link', run: () => window.open('https://helpsy.ir', '_blank', 'noopener') },
     { label: 'Open Barnabus', hint: 'link', run: () => window.open('https://barnabus.ai', '_blank', 'noopener') },
     { label: 'Open Gymivo', hint: 'link', run: () => window.open('https://gymivo.ir', '_blank', 'noopener') },
+    { label: 'Open KioSell', hint: 'link', run: () => window.open('https://kiosell.ir', '_blank', 'noopener') },
     { label: 'Copy email address', hint: p.meta.email, run: () => void copyEmail(p.meta.email), keywords: 'mail contact' },
     { label: 'Send an email', hint: 'mailto', run: () => { location.href = `mailto:${p.meta.email}`; } },
     ...extra,

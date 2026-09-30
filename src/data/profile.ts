@@ -194,12 +194,13 @@ export const profile = {
     {
       id: 'kiosell',
       kicker: 'Owner & Architect',
-      status: 'in progress',
+      status: 'launching',
       name: 'KioSell',
       sub: 'Multi-tenant commerce & reservation SaaS',
       description:
         'A .NET 10 modular monolith with a dedicated auth server, tenant data isolation in PostgreSQL, event-driven messaging with outbox and inbox, OpenTelemetry tracing and container-based integration tests. Go gRPC gateways and a Next.js monorepo on the edges.',
       tags: ['.NET 10', 'OpenIddict', 'Kafka', 'Redis', 'MinIO', 'OpenTelemetry', 'Testcontainers', 'Go', 'Next.js'],
+      link: 'https://kiosell.ir',
     },
     {
       id: 'uber',
