@@ -53,7 +53,7 @@ export const profile = {
     facts: [
       { icon: 'lead', title: 'Tech Lead & Architect @ Helpsy', sub: 'Architecture, teams, servers & delivery · since 2024' },
       { icon: 'code', title: 'System design · .NET & Go', sub: 'Microservices, event-driven systems, identity' },
-      { icon: 'edu', title: 'M.Sc. Software Engineering', sub: 'University of Isfahan · in progress' },
+      { icon: 'edu', title: 'M.Sc. Software Engineering', sub: 'University of Isfahan · TA, Advanced Software Engineering' },
       { icon: 'pin', title: 'Isfahan, Iran', sub: 'Open to remote collaboration' },
     ],
   },
@@ -101,6 +101,14 @@ export const profile = {
       ],
     },
     {
+      role: 'Teaching Assistant · Advanced Software Engineering (M.Sc.)',
+      org: 'University of Isfahan',
+      period: 'Sep 2026 — Dec 2026',
+      bullets: [
+        'Teaching assistant for the graduate Advanced Software Engineering course, taught by Dr. Sharbaf.',
+      ],
+    },
+    {
       role: 'Full-Stack Developer',
       org: 'Bar1',
       orgUrl: 'https://bar1.ir',
@@ -110,7 +118,7 @@ export const profile = {
       ],
     },
     {
-      role: 'Teaching Assistant',
+      role: 'Teaching Assistant · undergraduate courses',
       org: 'University of Isfahan',
       period: 'Sep 2022 — Mar 2023',
       bullets: ['Assisted computer engineering courses, grading and lab sessions.'],
