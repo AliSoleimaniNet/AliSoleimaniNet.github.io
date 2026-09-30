@@ -45,8 +45,8 @@ const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" vi
 ${mesh(11, 26, 1200, 630, '#22d3ee')}
 <text x="80" y="200" font-family="${MONO}" font-size="22" fill="#8b93a3">// alisoleimaninet.github.io</text>
 <text x="76" y="300" font-family="${FONT}" font-size="96" font-weight="800" letter-spacing="-3" fill="url(#nm)">Ali Soleimani</text>
-<text x="80" y="360" font-family="${FONT}" font-size="34" font-weight="600" fill="#22d3ee">Backend .NET Tech Lead · Go Engineer</text>
-<text x="80" y="410" font-family="${FONT}" font-size="24" fill="#8b93a3">Scalable microservices, identity platforms and payment kiosks.</text>
+<text x="80" y="360" font-family="${FONT}" font-size="34" font-weight="600" fill="#22d3ee">Tech Lead · Software Architect · .NET &amp; Go</text>
+<text x="80" y="410" font-family="${FONT}" font-size="24" fill="#8b93a3">Leading teams and designing scalable systems.</text>
 <g font-family="${FONT}" font-size="18" font-weight="600" fill="#9be9f5">
   <rect x="80" y="460" width="210" height="40" rx="20" fill="#22d3ee" fill-opacity=".12" stroke="#22d3ee" stroke-opacity=".4"/><text x="185" y="486" text-anchor="middle">Tech Lead @ Helpsy</text>
   <rect x="304" y="460" width="120" height="40" rx="20" fill="#22d3ee" fill-opacity=".12" stroke="#22d3ee" stroke-opacity=".4"/><text x="364" y="486" text-anchor="middle">.NET · Go</text>

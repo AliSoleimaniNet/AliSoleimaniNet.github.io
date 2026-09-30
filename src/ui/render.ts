@@ -48,7 +48,7 @@ function about(p: Profile) {
   <section class="about" id="about">
     <div class="wrap">
       <p class="eyebrow" data-reveal><span class="n">01</span>About</p>
-      <h2 class="h2" data-reveal>Backend engineer, tech lead,<br>systems person.</h2>
+      <h2 class="h2" data-reveal>Tech lead, software architect,<br>systems person.</h2>
       <div class="grid">
         <div class="bio">${p.about.bio.map((b) => `<p data-reveal>${b}</p>`).join('')}</div>
         <div>
@@ -95,7 +95,7 @@ function experience(p: Profile) {
 }
 
 function projectCard(pr: Project) {
-  const status = { production: 'Production', 'in progress': 'In progress', 'open source': 'Open source' }[pr.status];
+  const status = { production: 'Production', launching: 'Launching soon', 'in progress': 'In progress', 'open source': 'Open source' }[pr.status];
   const links = [
     pr.link ? `<a href="${pr.link}" target="_blank" rel="noopener">Visit ${icons.arrowUpRight}</a>` : '',
     pr.repo ? `<a href="${pr.repo}" target="_blank" rel="noopener">Source ${icons.arrowUpRight}</a>` : '',
