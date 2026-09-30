@@ -118,10 +118,12 @@ export const profile = {
       ],
     },
     {
-      role: 'Teaching Assistant · undergraduate courses',
+      role: 'Teaching Assistant · three undergraduate courses',
       org: 'University of Isfahan',
       period: 'Sep 2022 — Mar 2023',
-      bullets: ['Assisted computer engineering courses, grading and lab sessions.'],
+      bullets: [
+        'TA for three undergraduate courses in the same semester, working with Dr. Maryam Hosseini-Pozveh: Introductory Programming, Data Structures & Algorithms, and Social Networks.',
+      ],
     },
     {
       role: 'Co-founder · where it started',
