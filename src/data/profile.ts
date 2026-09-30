@@ -110,16 +110,6 @@ export const profile = {
       ],
     },
     {
-      role: 'Owner & Software Architect · Self-service kiosks',
-      org: 'Kiosk Management',
-      orgUrl: 'https://varzesh.kish.ir',
-      period: '2023 — Present',
-      bullets: [
-        'Designed and built a self-service payment kiosk platform end to end: a central admin API, an offline-first kiosk agent, bank POS terminal and receipt-printer integration, and fleet auto-update.',
-        'In production for years as the self-service kiosks behind varzesh.kish.ir; I still ship updates when needed.',
-      ],
-    },
-    {
       role: 'Teaching Assistant · three undergraduate courses',
       org: 'University of Isfahan',
       period: 'Sep 2022 — Mar 2023',
@@ -134,6 +124,16 @@ export const profile = {
       period: 'Oct 2023 — Apr 2024',
       bullets: [
         'Worked full stack on the internal panels of a freight-transport single-window platform: shipping workflows, bank B2B API integration and internal tooling in .NET.',
+      ],
+    },
+    {
+      role: 'Owner & Software Architect · Self-service kiosks',
+      org: 'Kiosk Management',
+      orgUrl: 'https://varzesh.kish.ir',
+      period: '2023 — Present',
+      bullets: [
+        'Designed and built a self-service payment kiosk platform end to end: a central admin API, an offline-first kiosk agent, bank POS terminal and receipt-printer integration, and fleet auto-update.',
+        'In production for years as the self-service kiosks behind varzesh.kish.ir; I still ship updates when needed.',
       ],
     },
     {
