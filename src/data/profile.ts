@@ -67,13 +67,13 @@ export const profile = {
     { title: 'Offline is a feature', text: 'Kiosks, mobile clients and flaky networks taught me store-and-forward, idempotency keys and reconciliation jobs.' },
   ],
 
+  // Order is curated by hand. Barnabus must never show "Present".
   experience: [
     {
       role: 'Tech Lead & Software Architect',
       org: 'Helpsy',
       orgUrl: 'https://helpsy.ir',
       period: 'Aug 2024 — Present',
-      end: 'now',
       bullets: [
         'Designed the system architecture of a multi-tenant healthcare platform: .NET microservices behind a gateway, gRPC between services and message-driven integration with a transactional outbox.',
         'Lead the backend and frontend teams, set the engineering standards, code review and documentation practices, and turn product requirements into technical plans.',
@@ -85,7 +85,6 @@ export const profile = {
       org: 'Gymivo',
       orgUrl: 'https://gymivo.ir',
       period: 'Sep 2025 — Present',
-      end: 'now',
       bullets: [
         'Co-founded Gymivo, a fitness platform that connects athletes with coaches for workout plans, progress tracking and challenges, launching soon at gymivo.ir.',
         'Designed and own the backend: an ASP.NET Core 10 API with Clean Architecture, EF Core on PostgreSQL, JWT auth, a media pipeline and integration tests, shipped with Docker.',
@@ -93,23 +92,39 @@ export const profile = {
       ],
     },
     {
+      role: 'Teaching Assistant · Advanced Software Engineering (M.Sc.)',
+      org: 'University of Isfahan',
+      period: 'Sep 2026 — Present',
+      bullets: [
+        'Teaching assistant for the graduate Advanced Software Engineering course, taught by Dr. Sharbaf.',
+      ],
+    },
+    {
       role: 'Go Engineer · Identity & Access Platform',
       org: 'Barnabus',
       orgUrl: 'https://barnabus.ai',
       period: '2026',
-      end: '2026-09',
       bullets: [
         'Designed and built the Go identity and access platform for the Barnabus healthcare products: single sign-on, MFA and OAuth2 / OIDC flows on PostgreSQL and Redis.',
         'Instrumented everything with OpenTelemetry and Prometheus, and delivered the admin and login front ends around it.',
       ],
     },
     {
-      role: 'Teaching Assistant · Advanced Software Engineering (M.Sc.)',
-      org: 'University of Isfahan',
-      period: 'Sep 2026 — Dec 2026',
-      end: '2026-12',
+      role: 'Owner & Software Architect · Self-service kiosks',
+      org: 'Kiosk Management',
+      orgUrl: 'https://varzesh.kish.ir',
+      period: '2023 — Present',
       bullets: [
-        'Teaching assistant for the graduate Advanced Software Engineering course, taught by Dr. Sharbaf.',
+        'Designed and built a self-service payment kiosk platform end to end: a central admin API, an offline-first kiosk agent, bank POS terminal and receipt-printer integration, and fleet auto-update.',
+        'In production for years as the self-service kiosks behind varzesh.kish.ir; I still ship updates when needed.',
+      ],
+    },
+    {
+      role: 'Teaching Assistant · three undergraduate courses',
+      org: 'University of Isfahan',
+      period: 'Sep 2022 — Mar 2023',
+      bullets: [
+        'TA for three undergraduate courses in the same semester, working with Dr. Maryam Hosseini-Pozveh: Introductory Programming, Data Structures & Algorithms, and Social Networks.',
       ],
     },
     {
@@ -117,18 +132,8 @@ export const profile = {
       org: 'Bar1',
       orgUrl: 'https://bar1.ir',
       period: 'Oct 2023 — Apr 2024',
-      end: '2024-04',
       bullets: [
         'Worked full stack on the internal panels of a freight-transport single-window platform: shipping workflows, bank B2B API integration and internal tooling in .NET.',
-      ],
-    },
-    {
-      role: 'Teaching Assistant · three undergraduate courses',
-      org: 'University of Isfahan',
-      period: 'Sep 2022 — Mar 2023',
-      end: '2023-03',
-      bullets: [
-        'TA for three undergraduate courses in the same semester, working with Dr. Maryam Hosseini-Pozveh: Introductory Programming, Data Structures & Algorithms, and Social Networks.',
       ],
     },
     {
@@ -136,7 +141,6 @@ export const profile = {
       org: 'OjeAmoozesh',
       orgUrl: 'https://ojeamoozesh.ir',
       period: '2016 — 2019',
-      end: '2019-12',
       bullets: [
         'Co-founded OjeAmoozesh, an online study-planning and university-entrance counseling platform, and built its early versions.',
         'As a teenager, built websites for companies and online stores and ran a small hosting reseller business, hosting and maintaining client sites myself.',

@@ -1,9 +1,6 @@
 import type { Profile, Project, StackItem } from '../data/profile';
 import { icons } from './icons';
 
-// newest first by end date; ongoing ('now') on top, ties keep the order in profile.ts
-const endKey = (end: string) => (end === 'now' ? '9999-99' : end);
-
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 export const NAV: [string, string][] = [
@@ -79,7 +76,7 @@ function experience(p: Profile) {
       <p class="eyebrow" data-reveal><span class="n">02</span>Experience</p>
       <h2 class="h2" data-reveal>Where I have shipped.</h2>
       <div class="timeline">
-        ${[...p.experience].sort((a, b) => endKey(b.end).localeCompare(endKey(a.end))).map((e) => `
+        ${p.experience.map((e) => `
           <div class="tl" data-reveal>
             <div class="card">
               <div class="top">
